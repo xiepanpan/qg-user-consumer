@@ -1,8 +1,9 @@
 package com.qg.controller;
 
-import com.alibaba.dubbo.common.json.JSON;
 import com.alibaba.dubbo.config.annotation.Reference;
-import com.qg.pojo.QgUser;
+import com.qg.dto.ReturnResult;
+import com.qg.dto.ReturnResultUtils;
+import com.qg.exception.CommonException;
 import com.qg.service.LocalUserService;
 import com.qg.service.QgUserService;
 import com.qg.utils.*;
@@ -11,8 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.text.ParseException;
-import java.util.Date;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * @author: xiepanpan
@@ -33,14 +33,15 @@ public class UserController {
 
     @RequestMapping("/doLogin")
     @ResponseBody
-    public String doLogin(String phone,String password) {
+    public ReturnResult doLogin(String phone, String password, HttpServletResponse response) {
+        response.setHeader("Access-Control-Allow-Origin","*");
         //调用接口 实现用户名和密码的验证
         try {
             return localUserService.validateToken(phone,password);
         } catch (Exception e) {
             e.printStackTrace();
+            return ReturnResultUtils.returnFail(CommonException.SYSTEM_EXCEPTION.getCode(),CommonException.SYSTEM_EXCEPTION.getMessage());
         }
-        return "fail";
     }
 
 

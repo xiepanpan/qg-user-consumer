@@ -1,5 +1,7 @@
 package com.qg.service;
 
+import com.qg.dto.ReturnResult;
+
 /**
  * @author: xiepanpan
  * @Date: 2019/10/3
@@ -7,5 +9,5 @@ package com.qg.service;
  */
 public interface LocalUserService {
 
-    public String validateToken(String phone,String password) throws Exception;
+    public ReturnResult validateToken(String phone, String password) throws Exception;
 }
