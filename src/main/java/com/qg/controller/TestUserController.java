@@ -30,10 +30,10 @@ public class TestUserController {
     public QgUser queryUserById() {
         QgUser qgUser = null;
         try {
-            kafkaUtil.sendInfoMessage("this is queryUserById function!");
+//            kafkaUtil.sendInfoMessage("this is queryUserById function!");
             qgUser = qgUserService.getQgUserById("1");
         } catch (Exception e) {
-            kafkaUtil.sendErrorMessage(e);
+//            kafkaUtil.sendErrorMessage(e);
             e.printStackTrace();
         }
         return qgUser;
