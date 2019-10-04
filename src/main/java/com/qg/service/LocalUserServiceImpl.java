@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.qg.common.Constants;
 import com.qg.dto.ReturnResult;
 import com.qg.dto.ReturnResultUtils;
+import com.qg.exception.CommonException;
 import com.qg.exception.UserException;
 import com.qg.pojo.QgUser;
 import com.qg.utils.EmptyUtils;
@@ -53,5 +54,15 @@ public class LocalUserServiceImpl implements LocalUserService {
             returnResult = ReturnResultUtils.returnFail(UserException.USER_PASSWORD_ERROR.getCode(),UserException.USER_PASSWORD_ERROR.getMessage());
         }
         return returnResult;
+    }
+
+    @Override
+    public ReturnResult removeToken(String token) throws Exception {
+        String qgUserJson = redisUtil.getStr(token);
+        //判断token是否有效
+        QgUser qgUser = JSONObject.parseObject(qgUserJson, QgUser.class);
+        redisUtil.del(token);
+        redisUtil.del(qgUser.getId());
+        return ReturnResultUtils.returnSuccess();
     }
 }

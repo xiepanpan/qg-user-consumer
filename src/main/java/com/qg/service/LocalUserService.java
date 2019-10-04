@@ -10,4 +10,12 @@ import com.qg.dto.ReturnResult;
 public interface LocalUserService {
 
     public ReturnResult validateToken(String phone, String password) throws Exception;
+
+    /**
+     * 注销功能
+     * @param token
+     * @return
+     * @throws Exception
+     */
+    public ReturnResult removeToken(String token) throws Exception;
 }

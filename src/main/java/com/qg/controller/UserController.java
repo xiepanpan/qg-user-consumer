@@ -10,6 +10,7 @@ import com.qg.utils.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletResponse;
@@ -31,18 +32,17 @@ public class UserController {
     private LocalUserService localUserService;
 
 
-    @RequestMapping("/doLogin")
+    @RequestMapping(value = "/doLogin",method = RequestMethod.POST)
     @ResponseBody
-    public ReturnResult doLogin(String phone, String password, HttpServletResponse response) {
-        response.setHeader("Access-Control-Allow-Origin","*");
+    public ReturnResult doLogin(String phone, String password, HttpServletResponse response) throws Exception {
         //调用接口 实现用户名和密码的验证
-        try {
-            return localUserService.validateToken(phone,password);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ReturnResultUtils.returnFail(CommonException.SYSTEM_EXCEPTION.getCode(),CommonException.SYSTEM_EXCEPTION.getMessage());
-        }
+        return localUserService.validateToken(phone,password);
     }
 
-
+    @RequestMapping(value = "/v/loginOut",method = RequestMethod.POST)
+    @ResponseBody
+    public ReturnResult loginOut(String token) throws Exception {
+        //调用接口 实现用户名和密码的验证
+        return localUserService.removeToken(token);
+    }
 }
